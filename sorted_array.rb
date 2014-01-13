@@ -1,32 +1,32 @@
 class SortedArray
-  attr_accessor :arr
+  attr_accessor :internal_arr
 
-  def initialize(arr=[])
-    @arr = []
-    arr.each do |element|
+  def initialize(input_arr=[])
+    @internal_arr = []
+    input_arr.each do |element|
       self.add(element)
     end
   end
 
   def add(new_ele)
-    @arr.insert(first_larger_index(new_ele), new_ele)
+    @internal_arr.insert(first_larger_index(new_ele), new_ele)
   end
 
   def size
-    @arr.size
+    @internal_arr.size
   end
   def [](index)
-    @arr[index]
+    @internal_arr[index]
   end
 
-  def first_larger_index_rec(target, start_ind=0, end_ind=@arr.size)
+  def first_larger_index_rec(target, start_ind=0, end_ind=@internal_arr.size)
     mid_ind = (end_ind-start_ind)/2 + start_ind
 
     # Get the halfway element
-    mid_ele = @arr[mid_ind]
+    mid_ele = @internal_arr[mid_ind]
 
     if start_ind == end_ind
-      if mid_ind == @arr.size || mid_ele > target
+      if mid_ind == @internal_arr.size || mid_ele > target
         return mid_ind
       else # mid_ele <= target
         return mid_ind + 1
@@ -44,19 +44,19 @@ class SortedArray
     end
   end
 
-  def first_larger_index(target, start_ind=0, end_ind=@arr.size)
+  def first_larger_index(target, start_ind=0, end_ind=@internal_arr.size)
     start_ind = 0
-    end_ind = @arr.size
+    end_ind = @internal_arr.size
 
     while start_ind <= end_ind
       # Calculate the halfway location
       mid_ind = (end_ind-start_ind)/2 + start_ind
 
       # Get the halfway element
-      mid_ele = @arr[mid_ind]
+      mid_ele = @internal_arr[mid_ind]
 
       if start_ind == end_ind
-        if mid_ind == @arr.size || mid_ele > target
+        if mid_ind == @internal_arr.size || mid_ele > target
           return mid_ind
         else # mid_ele <= target
           return mid_ind + 1
@@ -75,13 +75,13 @@ class SortedArray
     end
   end
 
-  def index(target, start_ind=0, end_ind=@arr.length)
+  def index(target, start_ind=0, end_ind=@internal_arr.length)
      # If start_ind > end_ind, the target can't be in the search space.
     until start_ind >= end_ind
       # Calculate the halfway point
       mid_ind = (end_ind-start_ind)/2 + start_ind
       # Get the halfway element
-      mid_ele = arr[mid_ind]
+      mid_ele = @internal_arr[mid_ind]
       # Is the target right in the middle?
       if mid_ele == target
         return mid_ind # return it.
