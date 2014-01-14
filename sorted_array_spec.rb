@@ -88,9 +88,10 @@ describe SortedArray do
     end
 
     it 'can pick before, after or between two elements' do
-      @sorted_array.internal_arr = [5,6]
+      @sorted_array.internal_arr = [5,7]
       @sorted_array.first_larger_index(4).should == 0
       @sorted_array.first_larger_index(6).should == 1
+      [1,2].include?(@sorted_array.first_larger_index(7)).should == true
       @sorted_array.first_larger_index(8).should == 2
     end
 
