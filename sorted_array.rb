@@ -19,67 +19,66 @@ class SortedArray
     @internal_arr[index]
   end
 
-  def first_larger_index_rec(target, start_ind=0, end_ind=@internal_arr.size)
-    mid_ind = (end_ind-start_ind)/2 + start_ind
+  def first_larger_index(target, start_ind=0, end_ind=@internal_arr.size)
+    if start_ind >= end_ind
+      return start_ind
+    else
 
-    # Get the halfway element
-    mid_ele = @internal_arr[mid_ind]
+      mid_ind = (end_ind-start_ind)/2 + start_ind
+      # We could also use (start_ind + end_ind)/2
+      # Get the halfway element
+      mid_ele = @internal_arr[mid_ind]
+      # We could also use (start_ind + end_ind)/2
 
-    if start_ind == end_ind
-      if mid_ind == @internal_arr.size || mid_ele > target
-        return mid_ind
-      else # mid_ele <= target
-        return mid_ind + 1
+      if mid_ele >= target
+        # Since the middle element is > than the target
+        # We know the first larger element index is <= mid_ind
+        first_larger_index(target, start_ind, mid_ind)
+      elsif mid_ele < target
+        # Since the middle element is < than the target
+        # We know the first larger element index is > mid_ind
+        first_larger_index(target, mid_ind+1, end_ind)
       end
-    elsif mid_ele > target
-      # Since the middle element is > than the target
-      # We know the first larger element index is <= mid_ind
-      first_larger_index(target, start_ind, mid_ind)
-    elsif mid_ele < target
-      # Since the middle element is < than the target
-      # We know the first larger element index is > mid_ind
-      first_larger_index(target, mid_ind+1, end_ind)
-    else # mid_ele == target, so the new element can go on either side
-      mid_ind
     end
   end
 
-  def first_larger_index(target, start_ind=0, end_ind=@internal_arr.size)
+  def first_larger_index_loop(target, start_ind=0, end_ind=@internal_arr.size)
     start_ind = 0
     end_ind = @internal_arr.size
 
-    while start_ind <= end_ind
+    while start_ind < end_ind
       # Calculate the halfway location
       mid_ind = (end_ind-start_ind)/2 + start_ind
+      # We could also use (start_ind + end_ind)/2
 
       # Get the halfway element
       mid_ele = @internal_arr[mid_ind]
 
-      if start_ind == end_ind
-        if mid_ind == @internal_arr.size || mid_ele > target
-          return mid_ind
-        else # mid_ele <= target
-          return mid_ind + 1
-        end
-      elsif mid_ele > target
-        # Since the middle element is > than the target
+      if mid_ele >= target
+        # Since the middle element is >= than the target
         # We know the first larger element index is <= mid_ind
         end_ind = mid_ind
       elsif mid_ele < target
         # Since the middle element is < than the target
         # We know the first larger element index is > mid_ind
         start_ind = mid_ind + 1
-      else # mid_ele == target, so the new element can go on either side
-        return mid_ind
       end
     end
+    # At this point, we've narrowed down the search space to one element.
+    # start_ind == end_ind.
+    # So start_ind is where we want to insert our target.
+
+    return start_ind
   end
 
   def index(target, start_ind=0, end_ind=@internal_arr.length)
      # If start_ind > end_ind, the target can't be in the search space.
     until start_ind >= end_ind
       # Calculate the halfway point
+
       mid_ind = (end_ind-start_ind)/2 + start_ind
+      # We could also use (start_ind + end_ind)/2
+
       # Get the halfway element
       mid_ele = @internal_arr[mid_ind]
       # Is the target right in the middle?
