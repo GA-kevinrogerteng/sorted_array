@@ -20,7 +20,16 @@ class SortedArray
   end
 
   def first_larger_index(target, start_ind=0, end_ind=@internal_arr.size)
-    if start_ind >= end_ind
+    # At the start of the method,
+    # we know that if result is the value we want to return
+    # (there's no variable called result, it's what we're looking for)
+    # start_ind <= result <= end_ind
+
+
+    if start_ind == end_ind
+      # since start_ind == end_ind
+      # and start_ind <= result <= end_ind
+      # start_ind == result == end_ind
       return start_ind
     else
 
@@ -33,10 +42,12 @@ class SortedArray
       if mid_ele >= target
         # Since the middle element is > than the target
         # We know the first larger element index is <= mid_ind
+        # result <= mid_ind.
         first_larger_index(target, start_ind, mid_ind)
       elsif mid_ele < target
         # Since the middle element is < than the target
         # We know the first larger element index is > mid_ind
+        # result > mid_ind
         first_larger_index(target, mid_ind+1, end_ind)
       end
     end
@@ -47,6 +58,11 @@ class SortedArray
     end_ind = @internal_arr.size
 
     while start_ind < end_ind
+      # At the start of the loop,
+      # we know that if result is the value we want to return
+      # (there's no variable called result, it's what we're looking for)
+      # start_ind <= result <= end_ind
+
       # Calculate the halfway location
       mid_ind = (end_ind-start_ind)/2 + start_ind
       # We could also use (start_ind + end_ind)/2
@@ -57,16 +73,18 @@ class SortedArray
       if mid_ele >= target
         # Since the middle element is >= than the target
         # We know the first larger element index is <= mid_ind
+        # result <= mid_ind
         end_ind = mid_ind
       elsif mid_ele < target
         # Since the middle element is < than the target
         # We know the first larger element index is > mid_ind
+        # result > mid_ind
         start_ind = mid_ind + 1
       end
     end
     # At this point, we've narrowed down the search space to one element.
     # start_ind == end_ind.
-    # So start_ind is where we want to insert our target.
+    # So start_ind == result == end_ind
 
     return start_ind
   end
